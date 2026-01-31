@@ -5,9 +5,42 @@ export interface Celebrity {
   id: number;
   name: string;
   lastname: string;
+  displayName: string;
   hiddenImageUrl: string;
   publicImageUrl: string;
 }
+
+// Custom display name mapping - map image filename to custom display name
+// If not in mapping, will use the filename as the display name
+const displayNameMapping: Record<string, string> = {
+  'Adomas Vyšniauskas': 'Adomas Vyšniauskas',
+  'Andrius Lobovas': 'Andrius Lobovas',
+  'Antanas Kandrotas Celofanas': 'Celofanas (Antanas Kandrotas)',
+  'Beata Nicholson': 'Beata Nicholson',
+  'Dominykas Dirkstys': 'Dominykas Dirkstys',
+  'Donatas Montvydas Donny Montello': 'Donny Montello (Donatas Montvydas)',
+  'Džesika Šyvokaitė Jessica Shy': 'Jessica Shy (Džesika Šyvokaitė)',
+  'Džordana Butkutė': 'Džordana Butkutė',
+  'Gabrielius Vagelis': 'Vagelis (Gabrielius)',
+  'Mantas Katleris': 'Mantas Katleris',
+  'Mantas Stonkujs': 'Mantas Stonkus',
+  'Marijonas Mikutavičius': 'Marijonas Mikutavičius',
+  'Monika Liu Liubinaitė': 'Monika Liu',
+  'Natalija Bunkė': 'Natalija Bunkė',
+  'Nijolė Pareigytė': 'Nijolė Pareigytė',
+  'Pishius': 'Pishius',
+  'Radži Radžis Aleksandrovičius': 'Radži Aleksandrovičius',
+  'Rytis Cicinas': 'Rytis Cicinas',
+  'Rūta Ščiogolevaitė': 'Rūta Ščiogolevaitė',
+  'Saulius Prūsaitis': 'Saulius Prūsaitis',
+  'Sel Egidijus Dragūnas': 'Sel (Egidijus Dragūnas)',
+  'Tadas Burgaila': 'Tadas Burgaila',
+  'Vaidas Baumila': 'Vaidas Baumila',
+  'Viktoras Viktor Balykov': 'Viktoras Balykov',
+  'Visvaldas Matijošaitis': 'Visvaldas Matijošaitis',
+  'Vytautas Medineckas Ironvytas': 'Ironvytas (Vytautas Medineckas)',
+  // Add more custom mappings here as needed
+};
 
 // Dynamically import all images from both folders
 const hiddenImageModules = import.meta.glob('/public/images/hidden/*.{png,jpg,jpeg,webp,gif}', { eager: true, as: 'url' });
@@ -32,10 +65,14 @@ export const celebrities: Celebrity[] = hiddenPaths.map((hiddenPath, index) => {
   const firstname = nameParts[0] || 'Unknown';
   const lastname = nameParts.slice(1).join(' ') || 'Celebrity';
   
+  // Get custom display name from mapping, or use filename
+  const displayName = displayNameMapping[filename] || filename;
+  
   return {
     id: index + 1,
     name: firstname,
     lastname: lastname,
+    displayName: displayName,
     hiddenImageUrl: hiddenImageModules[hiddenPath] as string,
     publicImageUrl: publicPath ? (publicImageModules[publicPath] as string) : (hiddenImageModules[hiddenPath] as string)
   };
