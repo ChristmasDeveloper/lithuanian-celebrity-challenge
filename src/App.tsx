@@ -17,9 +17,9 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div className="min-h-screen bg-background relative">
+        <div className="h-screen bg-background relative overflow-hidden">
           <BackgroundEffect />
-          <div className="relative z-10">
+          <div className="relative z-10 h-full flex flex-col">
             <Navigation />
             <Routes>
               <Route path="/" element={<Index />} />

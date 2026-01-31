@@ -17,8 +17,8 @@ const Game = () => {
   };
 
   return (
-    <div className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 pb-24 md:pb-8">
+    <div className="h-[calc(100vh-3.5rem)]">
+      <div className="container mx-auto px-4 py-4 h-full">
         <GameRound key={gameKey} onScoreSaved={handleScoreSaved} />
       </div>
     </div>
