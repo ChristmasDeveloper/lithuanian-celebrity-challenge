@@ -6,8 +6,8 @@ export const Navigation = () => {
   const location = useLocation();
 
   const links = [
-    { to: '/', label: 'Game', icon: Gamepad2 },
-    { to: '/scoreboard', label: 'Scoreboard', icon: Trophy },
+    { to: '/', label: 'Žaidimas', icon: Gamepad2 },
+    { to: '/scoreboard', label: 'Rezultatų lentelė', icon: Trophy },
   ];
 
   return (
