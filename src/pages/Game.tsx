@@ -17,8 +17,8 @@ const Game = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-3.5rem)]">
-      <div className="container mx-auto px-4 py-4">
+    <div className="flex-1 overflow-hidden">
+      <div className="container mx-auto px-4 h-full flex items-center justify-center overflow-hidden">
         <GameRound key={gameKey} onScoreSaved={handleScoreSaved} />
       </div>
     </div>
