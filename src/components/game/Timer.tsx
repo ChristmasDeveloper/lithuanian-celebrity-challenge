@@ -10,6 +10,7 @@ interface TimerProps {
 export interface TimerRef {
   pause: () => void;
   resume: () => void;
+  reduceTime: (seconds: number) => void;
 }
 
 export const Timer = forwardRef<TimerRef, TimerProps>(({ duration, isRunning, onTimeUp }, ref) => {
@@ -19,6 +20,7 @@ export const Timer = forwardRef<TimerRef, TimerProps>(({ duration, isRunning, on
   useImperativeHandle(ref, () => ({
     pause: () => setIsPaused(true),
     resume: () => setIsPaused(false),
+    reduceTime: (seconds: number) => setTimeLeft(prev => Math.max(0, prev - seconds)),
   }));
 
   useEffect(() => {

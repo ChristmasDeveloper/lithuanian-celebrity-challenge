@@ -42,7 +42,7 @@ export const GuessInput = ({ onSubmit, disabled, showError }: GuessInputProps) =
                 e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
               }, 300);
             }}
-            placeholder="Type name and lastname..."
+            placeholder="Įveskite savo spėjimą..."
             disabled={disabled}
             className={cn(
               "h-12 md:h-14 px-4 text-base md:text-lg",
@@ -74,7 +74,7 @@ export const GuessInput = ({ onSubmit, disabled, showError }: GuessInputProps) =
       
       {showError && (
         <p className="mt-2 text-sm text-accent text-center animate-scale-in">
-          Try again! 🤔
+          Bandykite dar kartą! 🤔
         </p>
       )}
     </form>

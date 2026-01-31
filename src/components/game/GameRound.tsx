@@ -98,9 +98,8 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
   const handleSkip = () => {
     if (!currentCelebrity || !isPlaying || showingPublicImage) return;
 
-    // Deduct 1 point
-    setScore(prev => prev - 1);
-    setShowScoreAnimation(true);
+    // Reduce time by 2 seconds
+    timerRef.current?.reduceTime(2);
     setShowError(false);
     
     // Pause timer and show public image (reveal answer)
@@ -115,8 +114,6 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
       setShowingPublicImage(false);
       timerRef.current?.resume();
     }, REVEAL_DURATION);
-    
-    setTimeout(() => setShowScoreAnimation(false), 300);
   };
 
   // Save score to API
@@ -201,7 +198,7 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
           className="mt-6 text-muted-foreground hover:text-foreground"
         >
           <RotateCcw className="w-4 h-4 mr-2" />
-          Play Again
+          Žaiskite dar kartą
         </Button>
       </div>
     );
@@ -252,7 +249,7 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
           "border-muted-foreground/30 hover:border-foreground/50"
         )}
       >
-        Praleisti (-1 taškas)
+        Praleisti (-2 sek.)
       </Button>
     </div>
   );
