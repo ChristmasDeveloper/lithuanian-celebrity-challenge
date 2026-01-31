@@ -11,8 +11,8 @@ export const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 md:relative md:bottom-auto">
-      <div className="bg-card/95 backdrop-blur-lg border-t md:border-b md:border-t-0 border-border">
+    <nav className="sticky top-0 left-0 right-0 z-40">
+      <div className="bg-card/95 backdrop-blur-lg border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center gap-2 h-16 md:h-14">
             {links.map(({ to, label, icon: Icon }) => (
