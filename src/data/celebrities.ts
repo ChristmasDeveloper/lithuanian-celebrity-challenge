@@ -22,7 +22,7 @@ const displayNameMapping: Record<string, string> = {
   'Beata Nicholson': 'Beata Nicholson',
   'Dominykas Dirkstys': 'Dominykas Dirkstys',
   'Dominykas OG Version Ježerys': 'Dominykas Ježerys (OG Version)',
-  'Donatas Montvydas Donny Montello': 'Donny Montello (Donatas Montvydas)',
+  'Donatas Montvydas Donny Montell': 'Donatas Montvydas (Donny Montell)',
   'Dovydas Rimkus Rimkenzo': 'Dovydas Rimkus (Rimkenzo)',
   'Džesika Šyvokaitė Jessica Shy': 'Džesika Šyvokaitė (Jessica Shy)',
   'Džiugas Siaurusaitis': 'Džiugas Siaurusaitis',

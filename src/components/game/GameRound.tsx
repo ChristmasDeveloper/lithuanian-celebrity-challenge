@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
 
 // Game configuration
 const GAME_DURATION = 60; // seconds
-const REVEAL_DURATION = 2000; // 2 seconds to show public image
+const REVEAL_DURATION = 1200; // 1.2 seconds to show public image
 
 interface GameRoundProps {
   onScoreSaved: () => void;
@@ -252,7 +252,7 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
           "border-muted-foreground/30 hover:border-foreground/50"
         )}
       >
-        Skip (-1 point)
+        Praleisti (-1 taškas)
       </Button>
     </div>
   );
