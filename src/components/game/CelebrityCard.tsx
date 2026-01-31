@@ -37,13 +37,13 @@ export const CelebrityCard = ({ celebrity, revealed = false, showPublicImage = f
         />
         
         {/* Revealed name */}
-        {/*{revealed && (
+        {revealed && (
           <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-background via-background/80 to-transparent p-4">
             <p className="font-display text-lg text-center text-primary neon-text-yellow">
               {celebrity.name} {celebrity.lastname}
             </p>
           </div>
-        )}*/}
+        )}
       </div>
     </div>
   );

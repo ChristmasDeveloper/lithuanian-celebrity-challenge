@@ -66,8 +66,8 @@ const Scoreboard = () => {
   };
 
   return (
-    <div className="min-h-screen gradient-bg animated-gradient">
-      <div className="container mx-auto px-4 py-8 pb-24 md:pb-8">
+    <div className="flex-1 overflow-y-auto">
+      <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
           <Trophy className="w-12 h-12 mx-auto mb-4 text-primary neon-text-yellow" />
