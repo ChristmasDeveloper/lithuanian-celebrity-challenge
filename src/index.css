@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap");
 
 @layer base {
   :root {
@@ -40,7 +40,8 @@
     --neon-yellow: 50 100% 50%;
     --neon-green: 120 60% 45%;
     --neon-red: 0 80% 55%;
-    --glow-yellow: 0 0 20px hsl(50, 100%, 50%), 0 0 40px hsl(50, 100%, 50%, 0.5);
+    --glow-yellow:
+      0 0 20px hsl(50, 100%, 50%), 0 0 40px hsl(50, 100%, 50%, 0.5);
     --glow-green: 0 0 20px hsl(120, 60%, 45%), 0 0 40px hsl(120, 60%, 45%, 0.5);
     --glow-red: 0 0 20px hsl(0, 80%, 55%), 0 0 40px hsl(0, 80%, 55%, 0.5);
   }
@@ -58,49 +59,61 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6, .font-display {
-    font-family: 'Orbitron', sans-serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  .font-display {
+    font-family: "Orbitron", sans-serif;
   }
 }
 
 @layer components {
   .neon-text-yellow {
-    text-shadow: 0 0 10px hsl(50, 100%, 50%),
-                 0 0 20px hsl(50, 100%, 50%),
-                 0 0 40px hsl(50, 100%, 50%, 0.5);
+    text-shadow:
+      0 0 10px hsl(50, 100%, 50%),
+      0 0 20px hsl(50, 100%, 50%),
+      0 0 40px hsl(50, 100%, 50%, 0.5);
   }
 
   .neon-text-green {
-    text-shadow: 0 0 10px hsl(120, 60%, 45%),
-                 0 0 20px hsl(120, 60%, 45%),
-                 0 0 40px hsl(120, 60%, 45%, 0.5);
+    text-shadow:
+      0 0 10px hsl(120, 60%, 45%),
+      0 0 20px hsl(120, 60%, 45%),
+      0 0 40px hsl(120, 60%, 45%, 0.5);
   }
 
   .neon-text-red {
-    text-shadow: 0 0 10px hsl(0, 80%, 55%),
-                 0 0 20px hsl(0, 80%, 55%),
-                 0 0 40px hsl(0, 80%, 55%, 0.5);
+    text-shadow:
+      0 0 10px hsl(0, 80%, 55%),
+      0 0 20px hsl(0, 80%, 55%),
+      0 0 40px hsl(0, 80%, 55%, 0.5);
   }
 
   .neon-border-yellow {
-    box-shadow: 0 0 10px hsl(50, 100%, 50%),
-                0 0 20px hsl(50, 100%, 50%, 0.5),
-                inset 0 0 10px hsl(50, 100%, 50%, 0.1);
+    box-shadow:
+      0 0 10px hsl(50, 100%, 50%),
+      0 0 20px hsl(50, 100%, 50%, 0.5),
+      inset 0 0 10px hsl(50, 100%, 50%, 0.1);
   }
 
   .neon-border-green {
-    box-shadow: 0 0 10px hsl(120, 60%, 45%),
-                0 0 20px hsl(120, 60%, 45%, 0.5),
-                inset 0 0 10px hsl(120, 60%, 45%, 0.1);
+    box-shadow:
+      0 0 10px hsl(120, 60%, 45%),
+      0 0 20px hsl(120, 60%, 45%, 0.5),
+      inset 0 0 10px hsl(120, 60%, 45%, 0.1);
   }
 
   .neon-border-red {
-    box-shadow: 0 0 10px hsl(0, 80%, 55%),
-                0 0 20px hsl(0, 80%, 55%, 0.5),
-                inset 0 0 10px hsl(0, 80%, 55%, 0.1);
+    box-shadow:
+      0 0 10px hsl(0, 80%, 55%),
+      0 0 20px hsl(0, 80%, 55%, 0.5),
+      inset 0 0 10px hsl(0, 80%, 55%, 0.1);
   }
 
   .gradient-bg {
@@ -138,7 +151,7 @@
   }
 
   .celebrity-mask::after {
-    content: '?';
+    content: "?";
     position: absolute;
     inset: 0;
     background: linear-gradient(
@@ -150,12 +163,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Orbitron', sans-serif;
+    font-family: "Orbitron", sans-serif;
     font-size: 4rem;
     font-weight: 800;
     color: hsl(50, 100%, 50%);
-    text-shadow: 0 0 20px hsl(50, 100%, 50%),
-                 0 0 40px hsl(50, 100%, 50%, 0.5);
+    text-shadow:
+      0 0 20px hsl(50, 100%, 50%),
+      0 0 40px hsl(50, 100%, 50%, 0.5);
   }
 
   .confetti-particle {
@@ -167,20 +181,45 @@
 
 @layer utilities {
   @keyframes gradient-shift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 
   @keyframes pulse-glow {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
   }
 
   @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-    20%, 40%, 60%, 80% { transform: translateX(5px); }
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+      transform: translateX(-5px);
+    }
+    20%,
+    40%,
+    60%,
+    80% {
+      transform: translateX(5px);
+    }
   }
 
   @keyframes confetti-fall {
@@ -195,13 +234,24 @@
   }
 
   @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
   }
 
   @keyframes scale-in {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 
   .animate-float {
@@ -210,5 +260,111 @@
 
   .animate-scale-in {
     animation: scale-in 0.3s ease-out;
+  }
+
+  @keyframes spotlight {
+    0%,
+    100% {
+      transform: translateX(-30%) scale(1);
+      opacity: 0.15;
+    }
+    50% {
+      transform: translateX(30%) scale(1.3);
+      opacity: 0.25;
+    }
+  }
+
+  @keyframes spotlight-2 {
+    0%,
+    100% {
+      transform: translateX(40%) scale(1.2);
+      opacity: 0.2;
+    }
+    50% {
+      transform: translateX(-20%) scale(1);
+      opacity: 0.1;
+    }
+  }
+
+  @keyframes flash {
+    0%,
+    85% {
+      opacity: 0;
+    }
+    87%,
+    89% {
+      opacity: 1;
+    }
+    90%,
+    92% {
+      opacity: 0;
+    }
+    93%,
+    95% {
+      opacity: 0.8;
+    }
+    96%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes camera-flash {
+    0%,
+    80% {
+      opacity: 0;
+    }
+    82% {
+      opacity: 0.9;
+    }
+    84% {
+      opacity: 0.2;
+    }
+    86% {
+      opacity: 1;
+    }
+    88% {
+      opacity: 0.4;
+    }
+    90%,
+    92% {
+      opacity: 0.8;
+    }
+    94%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes silhouette-float {
+    0%,
+    100% {
+      transform: translateY(0) translateX(0);
+      opacity: 0.4;
+    }
+    50% {
+      transform: translateY(-20px) translateX(10px);
+      opacity: 0.6;
+    }
+  }
+
+  .animate-spotlight {
+    animation: spotlight 6s ease-in-out infinite;
+  }
+
+  .animate-spotlight-2 {
+    animation: spotlight-2 8s ease-in-out infinite;
+  }
+
+  .animate-flash {
+    animation: flash 2s ease-in-out infinite;
+  }
+
+  .animate-camera-flash {
+    animation: camera-flash 2.5s ease-in-out infinite;
+  }
+
+  .animate-silhouette-float {
+    animation: silhouette-float 8s ease-in-out infinite;
   }
 }

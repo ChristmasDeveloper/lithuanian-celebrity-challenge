@@ -2,7 +2,12 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  content: [
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -14,8 +19,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Orbitron', 'sans-serif'],
-        sans: ['Inter', 'sans-serif'],
+        display: ["Orbitron", "sans-serif"],
+        sans: ["Inter", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -62,6 +67,9 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -72,11 +80,13 @@ export default {
           to: { height: "0" },
         },
         "pulse-border": {
-          "0%, 100%": { 
-            boxShadow: "0 0 10px hsl(var(--primary)), 0 0 20px hsl(var(--primary) / 0.5)" 
+          "0%, 100%": {
+            boxShadow:
+              "0 0 10px hsl(var(--primary)), 0 0 20px hsl(var(--primary) / 0.5)",
           },
-          "50%": { 
-            boxShadow: "0 0 20px hsl(var(--primary)), 0 0 40px hsl(var(--primary) / 0.7)" 
+          "50%": {
+            boxShadow:
+              "0 0 20px hsl(var(--primary)), 0 0 40px hsl(var(--primary) / 0.7)",
           },
         },
         "timer-pulse": {
