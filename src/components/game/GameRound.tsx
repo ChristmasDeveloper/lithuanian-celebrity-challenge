@@ -99,7 +99,7 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
     setApiError('');
     
     try {
-      const response = await fetch('/izimybes/api/celebrities', {
+      const response = await fetch('https://api.izymybes.lt/api/players', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -21,7 +21,7 @@ const Scoreboard = () => {
       setError('');
 
       try {
-        const response = await fetch('/izimybes/api/scores');
+        const response = await fetch('https://api.izymybes.lt/api/scores');
         
         if (!response.ok) {
           throw new Error('Failed to fetch scores');
