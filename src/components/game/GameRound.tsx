@@ -94,6 +94,31 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
     }
   };
 
+  // Handle skip
+  const handleSkip = () => {
+    if (!currentCelebrity || !isPlaying || showingPublicImage) return;
+
+    // Deduct 1 point
+    setScore(prev => prev - 1);
+    setShowScoreAnimation(true);
+    setShowError(false);
+    
+    // Pause timer and show public image (reveal answer)
+    timerRef.current?.pause();
+    setShowingPublicImage(true);
+    
+    // After 2 seconds, show next celebrity and resume timer
+    setTimeout(() => {
+      const nextCelebrity = getNextCelebrity();
+      setCurrentCelebrity(nextCelebrity);
+      setUsedCelebrities(prev => new Set([...prev, nextCelebrity.id]));
+      setShowingPublicImage(false);
+      timerRef.current?.resume();
+    }, REVEAL_DURATION);
+    
+    setTimeout(() => setShowScoreAnimation(false), 300);
+  };
+
   // Save score to API
   const handleSaveScore = async (nickname: string) => {
     setApiError('');
@@ -216,6 +241,19 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
         disabled={!isPlaying || showingPublicImage}
         showError={showError}
       />
+
+      {/* Skip button */}
+      <Button
+        onClick={handleSkip}
+        disabled={!isPlaying || showingPublicImage}
+        variant="outline"
+        className={cn(
+          "mt-2 text-muted-foreground hover:text-foreground",
+          "border-muted-foreground/30 hover:border-foreground/50"
+        )}
+      >
+        Skip (-1 point)
+      </Button>
     </div>
   );
 };
