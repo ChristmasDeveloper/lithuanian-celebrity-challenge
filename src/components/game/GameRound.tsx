@@ -167,7 +167,7 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
           Įžymybės
         </h1>
         <p className="text-muted-foreground text-lg md:text-xl mb-8 max-w-md">
-          Guess Lithuanian celebrities by their masked photos! Type their full name to score points.
+          Atspėkite Lietuvos įžymybes pagal jų užmaskuotas nuotraukas! Įveskite jų vardą, kad gautumėte taškų.
         </p>
         <Button
           onClick={startGame}
@@ -177,10 +177,10 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
             "hover:bg-primary/90",
             "neon-border-yellow animate-pulse-border",
             "font-display text-lg md:text-xl font-bold uppercase tracking-widest",
-            "transition-all duration-200"
+            "transition-all duration-600"
           )}
         >
-          Play Now
+          Pradėti žaidimą!
         </Button>
       </div>
     );
