@@ -36,6 +36,12 @@ export const GuessInput = ({ onSubmit, disabled, showError }: GuessInputProps) =
             value={guess}
             onChange={(e) => setGuess(e.target.value)}
             onKeyDown={handleKeyDown}
+            onFocus={(e) => {
+              // Scroll input into view when keyboard appears on mobile
+              setTimeout(() => {
+                e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }, 300);
+            }}
             placeholder="Type name and lastname..."
             disabled={disabled}
             className={cn(
