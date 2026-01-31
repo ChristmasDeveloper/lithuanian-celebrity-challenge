@@ -57,5 +57,12 @@ export const checkGuess = (guess: string, celebrity: Celebrity): boolean => {
   const fullName = normalizeString(`${celebrity.name} ${celebrity.lastname}`);
   const reverseName = normalizeString(`${celebrity.lastname} ${celebrity.name}`);
   
-  return normalizedGuess === fullName || normalizedGuess === reverseName;
+  // Check for exact full name match
+  if (normalizedGuess === fullName || normalizedGuess === reverseName) {
+    return true;
+  }
+  
+  // Check if guess matches any individual word in the name
+  const nameWords = `${celebrity.name} ${celebrity.lastname}`.split(' ').map(normalizeString);
+  return nameWords.some(word => word === normalizedGuess);
 };

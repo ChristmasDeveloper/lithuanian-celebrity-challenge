@@ -185,7 +185,15 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
   // Active game state
   return (
     <div className="flex flex-col items-center gap-6 md:gap-8 px-4 py-4">
-      <Conref={timerRef}
+      <ConfettiEffect 
+        trigger={showConfetti} 
+        onComplete={() => setShowConfetti(false)} 
+      />
+      
+      {/* Header with timer and score */}
+      <div className="flex items-center justify-between w-full max-w-md">
+        <Timer 
+          ref={timerRef}
           duration={GAME_DURATION} 
           isRunning={isPlaying} 
           onTimeUp={handleTimeUp} 
@@ -205,15 +213,7 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
       {/* Guess input */}
       <GuessInput 
         onSubmit={handleGuess}
-        disabled={!isPlaying || showingPublicImage
-      {currentCelebrity && (
-        <CelebrityCard celebrity={currentCelebrity} />
-      )}
-
-      {/* Guess input */}
-      <GuessInput 
-        onSubmit={handleGuess}
-        disabled={!isPlaying}
+        disabled={!isPlaying || showingPublicImage}
         showError={showError}
       />
     </div>
