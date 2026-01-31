@@ -1,0 +1,24 @@
+networks:
+  traefik:
+    external: true
+
+services:
+  web_frontend:
+    container_name: izymybes_web_frontend
+    image: node:22
+    command: sh -c "npm install && npm run build"
+    volumes:
+      - ./:/app
+    working_dir: /app
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontendizymybes.rule=Host(`izymybes.lt`)"
+      - "traefik.http.routers.frontendizymybes.entrypoints=web"
+    networks:
+      - traefik
