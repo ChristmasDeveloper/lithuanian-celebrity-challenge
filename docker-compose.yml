@@ -14,8 +14,11 @@ services:
   nginx:
     image: nginx:alpine
     restart: always
+#    ports:
+#      - "80:80"
     volumes:
       - ./dist:/usr/share/nginx/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.frontendizymybes.rule=Host(`izymybes.lt`)"
