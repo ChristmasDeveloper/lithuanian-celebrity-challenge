@@ -4,9 +4,12 @@ import { cn } from '@/lib/utils';
 interface CelebrityCardProps {
   celebrity: Celebrity;
   revealed?: boolean;
+  showPublicImage?: boolean;
 }
 
-export const CelebrityCard = ({ celebrity, revealed = false }: CelebrityCardProps) => {
+export const CelebrityCard = ({ celebrity, revealed = false, showPublicImage = false }: CelebrityCardProps) => {
+  const imageUrl = showPublicImage ? celebrity.publicImageUrl : celebrity.hiddenImageUrl;
+  
   return (
     <div className="relative w-full max-w-xs mx-auto">
       {/* Glow effect behind the card */}
@@ -17,31 +20,20 @@ export const CelebrityCard = ({ celebrity, revealed = false }: CelebrityCardProp
         className={cn(
           "relative aspect-square rounded-xl overflow-hidden",
           "border-2 border-primary/50",
-          "neon-border-yellow",
-          !revealed && "celebrity-mask"
+          "neon-border-yellow"
         )}
       >
         <img
-          src={celebrity.imageUrl}
+          src={imageUrl}
           alt={revealed ? `${celebrity.name} ${celebrity.lastname}` : "Mystery celebrity"}
           className={cn(
-            "w-full h-full object-cover",
-            !revealed && "blur-md scale-110"
+            "w-full h-full object-cover"
           )}
           onError={(e) => {
             // Fallback to placeholder if image fails to load
             (e.target as HTMLImageElement).src = '/placeholder.svg';
           }}
         />
-        
-        {/* Overlay for masked state */}
-        {!revealed && (
-          <div className="absolute inset-0 bg-gradient-to-br from-background/80 via-card/70 to-background/90 flex items-center justify-center">
-            <span className="font-display text-6xl md:text-7xl font-bold text-primary neon-text-yellow animate-float">
-              ?
-            </span>
-          </div>
-        )}
         
         {/* Revealed name */}
         {revealed && (

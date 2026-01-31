@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useImperativeHandle, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 
 interface TimerProps {
@@ -7,15 +7,26 @@ interface TimerProps {
   onTimeUp: () => void;
 }
 
-export const Timer = ({ duration, isRunning, onTimeUp }: TimerProps) => {
+export interface TimerRef {
+  pause: () => void;
+  resume: () => void;
+}
+
+export const Timer = forwardRef<TimerRef, TimerProps>(({ duration, isRunning, onTimeUp }, ref) => {
   const [timeLeft, setTimeLeft] = useState(duration);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useImperativeHandle(ref, () => ({
+    pause: () => setIsPaused(true),
+    resume: () => setIsPaused(false),
+  }));
 
   useEffect(() => {
     setTimeLeft(duration);
   }, [duration]);
 
   useEffect(() => {
-    if (!isRunning) return;
+    if (!isRunning || isPaused) return;
 
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
@@ -29,7 +40,7 @@ export const Timer = ({ duration, isRunning, onTimeUp }: TimerProps) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isRunning, onTimeUp]);
+  }, [isRunning, isPaused, onTimeUp]);
 
   const isLow = timeLeft <= 10;
   const isCritical = timeLeft <= 5;
@@ -79,4 +90,4 @@ export const Timer = ({ duration, isRunning, onTimeUp }: TimerProps) => {
       </span>
     </div>
   );
-};
+});

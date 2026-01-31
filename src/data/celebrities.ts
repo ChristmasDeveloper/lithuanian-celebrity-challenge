@@ -1,22 +1,30 @@
 // Lithuanian Celebrities Data
-// Automatically loads all images from public/images/public folder
+// Automatically loads all images from public/images/public and public/images/hidden folders
 
 export interface Celebrity {
   id: number;
   name: string;
   lastname: string;
-  imageUrl: string;
+  hiddenImageUrl: string;
+  publicImageUrl: string;
 }
 
-// Dynamically import all images from the public folder
-const imageModules = import.meta.glob('/public/images/public/*.{png,jpg,jpeg,webp,gif}', { eager: true, as: 'url' });
+// Dynamically import all images from both folders
+const hiddenImageModules = import.meta.glob('/public/images/hidden/*.{png,jpg,jpeg,webp,gif}', { eager: true, as: 'url' });
+const publicImageModules = import.meta.glob('/public/images/public/*.{png,jpg,jpeg,webp,gif}', { eager: true, as: 'url' });
 
 // Extract celebrity names from filenames and create celebrity objects
-const imagePaths = Object.keys(imageModules);
+const hiddenPaths = Object.keys(hiddenImageModules);
 
-export const celebrities: Celebrity[] = imagePaths.map((path, index) => {
+export const celebrities: Celebrity[] = hiddenPaths.map((hiddenPath, index) => {
   // Extract filename without extension
-  const filename = path.split('/').pop()?.replace(/\.(png|jpg|jpeg|webp|gif)$/i, '') || '';
+  const filename = hiddenPath.split('/').pop()?.replace(/\.(png|jpg|jpeg|webp|gif)$/i, '') || '';
+  
+  // Find matching public image by filename
+  const publicPath = Object.keys(publicImageModules).find(path => {
+    const publicFilename = path.split('/').pop()?.replace(/\.(png|jpg|jpeg|webp|gif)$/i, '') || '';
+    return publicFilename === filename;
+  });
   
   // Split filename to get first name and last name
   // Assumes format: "FirstName LastName.png" or similar
@@ -28,7 +36,8 @@ export const celebrities: Celebrity[] = imagePaths.map((path, index) => {
     id: index + 1,
     name: firstname,
     lastname: lastname,
-    imageUrl: imageModules[path] as string
+    hiddenImageUrl: hiddenImageModules[hiddenPath] as string,
+    publicImageUrl: publicPath ? (publicImageModules[publicPath] as string) : (hiddenImageModules[hiddenPath] as string)
   };
 });
 

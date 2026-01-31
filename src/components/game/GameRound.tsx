@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from 'react';
-import { Timer } from './Timer';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { Timer, TimerRef } from './Timer';
 import { ScoreDisplay } from './ScoreDisplay';
 import { CelebrityCard } from './CelebrityCard';
 import { GuessInput } from './GuessInput';
@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 
 // Game configuration
 const GAME_DURATION = 60; // seconds
+const REVEAL_DURATION = 2000; // 2 seconds to show public image
 
 interface GameRoundProps {
   onScoreSaved: () => void;
@@ -27,6 +28,8 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
   const [showScoreAnimation, setShowScoreAnimation] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
   const [apiError, setApiError] = useState('');
+  const [showingPublicImage, setShowingPublicImage] = useState(false);
+  const timerRef = useRef<TimerRef>(null);
 
   // Get a random celebrity that hasn't been used
   const getNextCelebrity = useCallback(() => {
@@ -61,7 +64,7 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
 
   // Handle guess submission
   const handleGuess = (guess: string) => {
-    if (!currentCelebrity || !isPlaying) return;
+    if (!currentCelebrity || !isPlaying || showingPublicImage) return;
 
     if (checkGuess(guess, currentCelebrity)) {
       // Correct guess
@@ -70,10 +73,18 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
       setShowConfetti(true);
       setShowError(false);
       
-      // Get next celebrity
-      const nextCelebrity = getNextCelebrity();
-      setCurrentCelebrity(nextCelebrity);
-      setUsedCelebrities(prev => new Set([...prev, nextCelebrity.id]));
+      // Pause timer and show public image
+      timerRef.current?.pause();
+      setShowingPublicImage(true);
+      
+      // After 2 seconds, show next celebrity and resume timer
+      setTimeout(() => {
+        const nextCelebrity = getNextCelebrity();
+        setCurrentCelebrity(nextCelebrity);
+        setUsedCelebrities(prev => new Set([...prev, nextCelebrity.id]));
+        setShowingPublicImage(false);
+        timerRef.current?.resume();
+      }, REVEAL_DURATION);
       
       setTimeout(() => setShowScoreAnimation(false), 300);
     } else {
@@ -174,14 +185,7 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
   // Active game state
   return (
     <div className="flex flex-col items-center gap-6 md:gap-8 px-4 py-4">
-      <ConfettiEffect 
-        trigger={showConfetti} 
-        onComplete={() => setShowConfetti(false)} 
-      />
-      
-      {/* Header with timer and score */}
-      <div className="flex items-center justify-between w-full max-w-md">
-        <Timer 
+      <Conref={timerRef}
           duration={GAME_DURATION} 
           isRunning={isPlaying} 
           onTimeUp={handleTimeUp} 
@@ -190,6 +194,18 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
       </div>
 
       {/* Celebrity card */}
+      {currentCelebrity && (
+        <CelebrityCard 
+          celebrity={currentCelebrity} 
+          revealed={showingPublicImage}
+          showPublicImage={showingPublicImage}
+        />
+      )}
+
+      {/* Guess input */}
+      <GuessInput 
+        onSubmit={handleGuess}
+        disabled={!isPlaying || showingPublicImage
       {currentCelebrity && (
         <CelebrityCard celebrity={currentCelebrity} />
       )}
