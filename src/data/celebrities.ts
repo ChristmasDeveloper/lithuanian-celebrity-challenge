@@ -1,5 +1,5 @@
 // Lithuanian Celebrities Data
-// Easy to update image URLs later - just replace the imageUrl values
+// Automatically loads all images from public/images/public folder
 
 export interface Celebrity {
   id: number;
@@ -8,68 +8,29 @@ export interface Celebrity {
   imageUrl: string;
 }
 
-export const celebrities: Celebrity[] = [
-  {
-    id: 1,
-    name: "Arvydas",
-    lastname: "Sabonis",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Arvydas_Sabonis.jpg/440px-Arvydas_Sabonis.jpg"
-  },
-  {
-    id: 2,
-    name: "Rūta",
-    lastname: "Meilutytė",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Ruta_Meilutyte_2019.jpg/440px-Ruta_Meilutyte_2019.jpg"
-  },
-  {
-    id: 3,
-    name: "Žydrūnas",
-    lastname: "Savickas",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Zydrunas_Savickas_2012.jpg/440px-Zydrunas_Savickas_2012.jpg"
-  },
-  {
-    id: 4,
-    name: "Ingeborga",
-    lastname: "Dapkūnaitė",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Ingeborga_Dapkunaite.jpg/440px-Ingeborga_Dapkunaite.jpg"
-  },
-  {
-    id: 5,
-    name: "Donatas",
-    lastname: "Montvydas",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Donny_Montell_ESC2016.jpg/440px-Donny_Montell_ESC2016.jpg"
-  },
-  {
-    id: 6,
-    name: "Jurga",
-    lastname: "Šeduikytė",
-    imageUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop"
-  },
-  {
-    id: 7,
-    name: "Andrius",
-    lastname: "Mamontovas",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Andrius_Mamontovas_2018.jpg/440px-Andrius_Mamontovas_2018.jpg"
-  },
-  {
-    id: 8,
-    name: "Šarūnas",
-    lastname: "Jasikevičius",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Sarunas_Jasikevicius.jpg/440px-Sarunas_Jasikevicius.jpg"
-  },
-  {
-    id: 9,
-    name: "Violeta",
-    lastname: "Urmana",
-    imageUrl: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop"
-  },
-  {
-    id: 10,
-    name: "Jonas",
-    lastname: "Valančiūnas",
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Jonas_Valanciunas.jpg/440px-Jonas_Valanciunas.jpg"
-  },
-];
+// Dynamically import all images from the public folder
+const imageModules = import.meta.glob('/public/images/public/*.{png,jpg,jpeg,webp,gif}', { eager: true, as: 'url' });
+
+// Extract celebrity names from filenames and create celebrity objects
+const imagePaths = Object.keys(imageModules);
+
+export const celebrities: Celebrity[] = imagePaths.map((path, index) => {
+  // Extract filename without extension
+  const filename = path.split('/').pop()?.replace(/\.(png|jpg|jpeg|webp|gif)$/i, '') || '';
+  
+  // Split filename to get first name and last name
+  // Assumes format: "FirstName LastName.png" or similar
+  const nameParts = filename.split(' ');
+  const firstname = nameParts[0] || 'Unknown';
+  const lastname = nameParts.slice(1).join(' ') || 'Celebrity';
+  
+  return {
+    id: index + 1,
+    name: firstname,
+    lastname: lastname,
+    imageUrl: imageModules[path] as string
+  };
+});
 
 // Helper to normalize strings for comparison
 export const normalizeString = (str: string): string => {
