@@ -1,8 +1,8 @@
-import { useState, FormEvent, KeyboardEvent } from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Send, Volume2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState, FormEvent, KeyboardEvent } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Send, Volume2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface GuessInputProps {
   onSubmit: (guess: string) => void;
@@ -11,20 +11,25 @@ interface GuessInputProps {
   hintAudioPath?: string;
 }
 
-export const GuessInput = ({ onSubmit, disabled, showError, hintAudioPath }: GuessInputProps) => {
-  const [guess, setGuess] = useState('');
+export const GuessInput = ({
+  onSubmit,
+  disabled,
+  showError,
+  hintAudioPath,
+}: GuessInputProps) => {
+  const [guess, setGuess] = useState("");
   const [isPlayingHint, setIsPlayingHint] = useState(false);
 
   const handleSubmit = (e?: FormEvent) => {
     e?.preventDefault();
     if (guess.trim() && !disabled) {
       onSubmit(guess.trim());
-      setGuess('');
+      setGuess("");
     }
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSubmit();
     }
   };
@@ -52,7 +57,10 @@ export const GuessInput = ({ onSubmit, disabled, showError, hintAudioPath }: Gue
             onFocus={(e) => {
               // Scroll input into view when keyboard appears on mobile
               setTimeout(() => {
-                e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                e.target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "center",
+                });
               }, 300);
             }}
             placeholder="Įveskite savo spėjimą..."
@@ -63,7 +71,7 @@ export const GuessInput = ({ onSubmit, disabled, showError, hintAudioPath }: Gue
               "focus:border-primary focus:ring-primary/20",
               "placeholder:text-muted-foreground/50",
               "transition-all duration-200",
-              showError && "shake border-accent"
+              showError && "shake border-accent",
             )}
             autoComplete="off"
             autoFocus
@@ -80,11 +88,11 @@ export const GuessInput = ({ onSubmit, disabled, showError, hintAudioPath }: Gue
               "hover:bg-secondary/90",
               "font-display font-semibold uppercase tracking-wider text-xs md:text-sm",
               "transition-all duration-200",
-              "whitespace-nowrap"
+              "whitespace-nowrap",
             )}
           >
             <Volume2 className="w-4 h-4 mr-2" />
-            Hint
+            Užuomina
           </Button>
         )}
         <Button
@@ -96,13 +104,13 @@ export const GuessInput = ({ onSubmit, disabled, showError, hintAudioPath }: Gue
             "hover:bg-primary/90",
             "neon-border-yellow",
             "font-display font-semibold uppercase tracking-wider",
-            "transition-all duration-200"
+            "transition-all duration-200",
           )}
         >
           <Send className="w-5 h-5" />
         </Button>
       </div>
-      
+
       {showError && (
         <p className="mt-2 text-sm text-accent text-center animate-scale-in">
           Bandykite dar kartą! 🤔
