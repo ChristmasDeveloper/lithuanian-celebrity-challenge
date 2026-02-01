@@ -1,14 +1,14 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
-import { Timer, TimerRef } from './Timer';
-import { ScoreDisplay } from './ScoreDisplay';
-import { CelebrityCard } from './CelebrityCard';
-import { GuessInput } from './GuessInput';
-import { ConfettiEffect } from './ConfettiEffect';
-import { NicknameForm } from './NicknameForm';
-import { Button } from '@/components/ui/button';
-import { celebrities, checkGuess, Celebrity } from '@/data/celebrities';
-import { RotateCcw } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState, useCallback, useEffect, useRef } from "react";
+import { Timer, TimerRef } from "./Timer";
+import { ScoreDisplay } from "./ScoreDisplay";
+import { CelebrityCard } from "./CelebrityCard";
+import { GuessInput } from "./GuessInput";
+import { ConfettiEffect } from "./ConfettiEffect";
+import { NicknameForm } from "./NicknameForm";
+import { Button } from "@/components/ui/button";
+import { celebrities, checkGuess, Celebrity } from "@/data/celebrities";
+import { RotateCcw } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // Game configuration
 const GAME_DURATION = 60; // seconds
@@ -21,27 +21,35 @@ interface GameRoundProps {
 export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [score, setScore] = useState(0);
-  const [currentCelebrity, setCurrentCelebrity] = useState<Celebrity | null>(null);
-  const [usedCelebrities, setUsedCelebrities] = useState<Set<number>>(new Set());
+  const [currentCelebrity, setCurrentCelebrity] = useState<Celebrity | null>(
+    null,
+  );
+  const [usedCelebrities, setUsedCelebrities] = useState<Set<number>>(
+    new Set(),
+  );
   const [showConfetti, setShowConfetti] = useState(false);
   const [showError, setShowError] = useState(false);
   const [showScoreAnimation, setShowScoreAnimation] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
-  const [apiError, setApiError] = useState('');
+  const [apiError, setApiError] = useState("");
   const [showingPublicImage, setShowingPublicImage] = useState(false);
   const timerRef = useRef<TimerRef>(null);
 
   // Get a random celebrity that hasn't been used
   const getNextCelebrity = useCallback(() => {
-    const availableCelebrities = celebrities.filter(c => !usedCelebrities.has(c.id));
-    
+    const availableCelebrities = celebrities.filter(
+      (c) => !usedCelebrities.has(c.id),
+    );
+
     if (availableCelebrities.length === 0) {
       // Reset if all celebrities have been used
       setUsedCelebrities(new Set());
       return celebrities[Math.floor(Math.random() * celebrities.length)];
     }
-    
-    return availableCelebrities[Math.floor(Math.random() * availableCelebrities.length)];
+
+    return availableCelebrities[
+      Math.floor(Math.random() * availableCelebrities.length)
+    ];
   }, [usedCelebrities]);
 
   // Start the game
@@ -50,8 +58,9 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
     setScore(0);
     setGameEnded(false);
     setUsedCelebrities(new Set());
-    setApiError('');
-    const firstCelebrity = celebrities[Math.floor(Math.random() * celebrities.length)];
+    setApiError("");
+    const firstCelebrity =
+      celebrities[Math.floor(Math.random() * celebrities.length)];
     setCurrentCelebrity(firstCelebrity);
     setUsedCelebrities(new Set([firstCelebrity.id]));
   };
@@ -68,7 +77,7 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
 
     if (checkGuess(guess, currentCelebrity)) {
       // Correct guess
-      setScore(prev => prev + 1);
+      setScore((prev) => prev + 1);
       setShowScoreAnimation(true);
       setShowConfetti(true);
       setShowError(false);
@@ -81,7 +90,7 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
       setTimeout(() => {
         const nextCelebrity = getNextCelebrity();
         setCurrentCelebrity(nextCelebrity);
-        setUsedCelebrities(prev => new Set([...prev, nextCelebrity.id]));
+        setUsedCelebrities((prev) => new Set([...prev, nextCelebrity.id]));
         setShowingPublicImage(false);
         timerRef.current?.resume();
       }, REVEAL_DURATION);
@@ -104,16 +113,16 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
     // Reduce time by 2 seconds
     timerRef.current?.reduceTime(2);
     setShowError(false);
-    
+
     // Pause timer and show public image (reveal answer)
     timerRef.current?.pause();
     setShowingPublicImage(true);
-    
+
     // After 2 seconds, show next celebrity and resume timer
     setTimeout(() => {
       const nextCelebrity = getNextCelebrity();
       setCurrentCelebrity(nextCelebrity);
-      setUsedCelebrities(prev => new Set([...prev, nextCelebrity.id]));
+      setUsedCelebrities((prev) => new Set([...prev, nextCelebrity.id]));
       setShowingPublicImage(false);
       timerRef.current?.resume();
     }, REVEAL_DURATION);
@@ -121,13 +130,13 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
 
   // Save score to API
   const handleSaveScore = async (nickname: string) => {
-    setApiError('');
-    
+    setApiError("");
+
     try {
-      const response = await fetch('https://api.izymybes.lt/api/players', {
-        method: 'POST',
+      const response = await fetch("https://api.izymybes.lt/api/players", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           nickname,
@@ -136,18 +145,18 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
       });
 
       if (response.status === 400) {
-        setApiError('Nickname already exists. Choose another.');
+        setApiError("Nickname already exists. Choose another.");
         return;
       }
 
       if (!response.ok) {
-        throw new Error('Failed to save score');
+        throw new Error("Failed to save score");
       }
 
       // Success - redirect to scoreboard
       onScoreSaved();
     } catch (error) {
-      setApiError('Failed to save score. Please try again.');
+      setApiError("Failed to save score. Please try again.");
     }
   };
 
@@ -167,7 +176,8 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
           Įžymybės
         </h1>
         <p className="text-muted-foreground text-lg md:text-xl mb-8 max-w-md">
-          Atspėkite Lietuvos įžymybes pagal jų užmaskuotas nuotraukas! Įveskite jų vardą, kad gautumėte taškų.
+          Atspėkite Lietuvos įžymybes pagal jų užmaskuotas nuotraukas! Įveskite
+          jų vardą, kad gautumėte taškų.
         </p>
         <Button
           onClick={startGame}
@@ -177,7 +187,7 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
             "hover:bg-primary/90",
             "neon-border-yellow animate-pulse-border",
             "font-display text-lg md:text-xl font-bold uppercase tracking-widest",
-            "transition-all duration-600"
+            "transition-all duration-600",
           )}
         >
           Pradėti žaidimą!
@@ -190,8 +200,8 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
   if (gameEnded) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] px-4">
-        <NicknameForm 
-          score={score} 
+        <NicknameForm
+          score={score}
           onSubmit={handleSaveScore}
           error={apiError}
         />
@@ -210,33 +220,33 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
   // Active game state
   return (
     <div className="flex flex-col items-center gap-6 md:gap-8 px-4 py-4">
-      <ConfettiEffect 
-        trigger={showConfetti} 
-        onComplete={() => setShowConfetti(false)} 
+      <ConfettiEffect
+        trigger={showConfetti}
+        onComplete={() => setShowConfetti(false)}
       />
-      
+
       {/* Header with timer and score */}
       <div className="flex items-center justify-between w-full max-w-md">
-        <Timer 
+        <Timer
           ref={timerRef}
-          duration={GAME_DURATION} 
-          isRunning={isPlaying} 
-          onTimeUp={handleTimeUp} 
+          duration={GAME_DURATION}
+          isRunning={isPlaying}
+          onTimeUp={handleTimeUp}
         />
         <ScoreDisplay score={score} showAnimation={showScoreAnimation} />
       </div>
 
       {/* Celebrity card */}
       {currentCelebrity && (
-        <CelebrityCard 
-          celebrity={currentCelebrity} 
+        <CelebrityCard
+          celebrity={currentCelebrity}
           revealed={showingPublicImage}
           showPublicImage={showingPublicImage}
         />
       )}
 
       {/* Guess input */}
-      <GuessInput 
+      <GuessInput
         onSubmit={handleGuess}
         disabled={!isPlaying || showingPublicImage}
         showError={showError}
@@ -250,7 +260,7 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
         variant="outline"
         className={cn(
           "mt-2 text-muted-foreground hover:text-foreground",
-          "border-muted-foreground/30 hover:border-foreground/50"
+          "border-muted-foreground/30 hover:border-foreground/50",
         )}
       >
         Praleisti (-2 sek.)
