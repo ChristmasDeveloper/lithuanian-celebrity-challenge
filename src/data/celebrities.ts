@@ -69,6 +69,7 @@ const displayNameMapping: Record<string, string> = {
   'Visvaldas Matijošaitis': 'Visvaldas Matijošaitis',
   'Vytautas Medineckas Ironvytas': 'Vytautas Medineckas (Ironvytas)',
   'Žilvinas Žvagulis': 'Žilvinas Žvagulis',
+  'Artūras Orlauskas': 'Artūras Orlauskas',
   // Add more custom mappings here as needed
 };
 
