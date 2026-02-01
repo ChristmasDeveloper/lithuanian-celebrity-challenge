@@ -8,6 +8,7 @@ export interface Celebrity {
   displayName: string;
   hiddenImageUrl: string;
   publicImageUrl: string;
+  audioHintPath: string;
 }
 
 // Custom display name mapping - map image filename to custom display name
@@ -97,13 +98,17 @@ export const celebrities: Celebrity[] = hiddenPaths.map((hiddenPath, index) => {
   // Get custom display name from mapping, or use filename
   const displayName = displayNameMapping[filename] || filename;
   
+  // Construct audio hint path from filename (lowercase)
+  const audioHintPath = `/mp3/${filename}.mp3`;
+
   return {
     id: index + 1,
     name: firstname,
     lastname: lastname,
     displayName: displayName,
     hiddenImageUrl: hiddenImageModules[hiddenPath] as string,
-    publicImageUrl: publicPath ? (publicImageModules[publicPath] as string) : (hiddenImageModules[hiddenPath] as string)
+    publicImageUrl: publicPath ? (publicImageModules[publicPath] as string) : (hiddenImageModules[hiddenPath] as string),
+    audioHintPath: audioHintPath
   };
 });
 

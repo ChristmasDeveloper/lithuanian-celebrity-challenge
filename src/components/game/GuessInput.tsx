@@ -1,17 +1,19 @@
 import { useState, FormEvent, KeyboardEvent } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Send } from 'lucide-react';
+import { Send, Volume2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface GuessInputProps {
   onSubmit: (guess: string) => void;
   disabled?: boolean;
   showError?: boolean;
+  hintAudioPath?: string;
 }
 
-export const GuessInput = ({ onSubmit, disabled, showError }: GuessInputProps) => {
+export const GuessInput = ({ onSubmit, disabled, showError, hintAudioPath }: GuessInputProps) => {
   const [guess, setGuess] = useState('');
+  const [isPlayingHint, setIsPlayingHint] = useState(false);
 
   const handleSubmit = (e?: FormEvent) => {
     e?.preventDefault();
@@ -25,6 +27,16 @@ export const GuessInput = ({ onSubmit, disabled, showError }: GuessInputProps) =
     if (e.key === 'Enter') {
       handleSubmit();
     }
+  };
+
+  const playHint = () => {
+    if (!hintAudioPath) return;
+
+    const audio = new Audio(hintAudioPath);
+    setIsPlayingHint(true);
+    audio.play();
+    audio.onended = () => setIsPlayingHint(false);
+    audio.onerror = () => setIsPlayingHint(false);
   };
 
   return (
@@ -56,6 +68,22 @@ export const GuessInput = ({ onSubmit, disabled, showError }: GuessInputProps) =
             autoFocus
           />
         </div>
+        <Button
+          type="button"
+          onClick={playHint}
+          disabled={disabled || isPlayingHint || !hintAudioPath}
+          className={cn(
+            "h-12 md:h-14 px-4",
+            "bg-secondary text-secondary-foreground",
+            "hover:bg-secondary/90",
+            "font-display font-semibold uppercase tracking-wider text-xs md:text-sm",
+            "transition-all duration-200",
+            "whitespace-nowrap"
+          )}
+        >
+          <Volume2 className="w-4 h-4 mr-2" />
+          Hint
+        </Button>
         <Button
           type="submit"
           disabled={disabled || !guess.trim()}

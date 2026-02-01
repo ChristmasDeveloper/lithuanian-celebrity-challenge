@@ -237,6 +237,7 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
         onSubmit={handleGuess}
         disabled={!isPlaying || showingPublicImage}
         showError={showError}
+        hintAudioPath={currentCelebrity?.audioHintPath}
       />
 
       {/* Skip button */}
