@@ -72,11 +72,11 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
       setShowScoreAnimation(true);
       setShowConfetti(true);
       setShowError(false);
-      
+
       // Pause timer and show public image
       timerRef.current?.pause();
       setShowingPublicImage(true);
-      
+
       // After 2 seconds, show next celebrity and resume timer
       setTimeout(() => {
         const nextCelebrity = getNextCelebrity();
@@ -85,7 +85,7 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
         setShowingPublicImage(false);
         timerRef.current?.resume();
       }, REVEAL_DURATION);
-      
+
       setTimeout(() => setShowScoreAnimation(false), 300);
     } else {
       // Wrong guess
@@ -93,6 +93,9 @@ export const GameRound = ({ onScoreSaved }: GameRoundProps) => {
       setTimeout(() => setShowError(false), 1000);
     }
   };
+
+  // Focus GuessInput on each new round (when currentCelebrity changes)
+  // (No code needed here, handled in GuessInput with ref and effect)
 
   // Handle skip
   const handleSkip = () => {

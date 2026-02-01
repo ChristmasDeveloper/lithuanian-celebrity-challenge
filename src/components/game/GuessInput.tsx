@@ -1,4 +1,4 @@
-import { useState, FormEvent, KeyboardEvent } from "react";
+import { useState, useRef, useEffect, FormEvent, KeyboardEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send, Volume2 } from "lucide-react";
@@ -19,6 +19,7 @@ export const GuessInput = ({
 }: GuessInputProps) => {
   const [guess, setGuess] = useState("");
   const [isPlayingHint, setIsPlayingHint] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e?: FormEvent) => {
     e?.preventDefault();
@@ -45,11 +46,19 @@ export const GuessInput = ({
     audio.onerror = () => setIsPlayingHint(false);
   };
 
+  // Focus input when enabled or on mount
+  useEffect(() => {
+    if (!disabled && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [disabled]);
+
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto">
       <div className="flex gap-2">
         <div className="relative flex-1">
           <Input
+            ref={inputRef}
             type="text"
             value={guess}
             onChange={(e) => setGuess(e.target.value)}
@@ -74,7 +83,7 @@ export const GuessInput = ({
               showError && "shake border-accent",
             )}
             autoComplete="off"
-            autoFocus
+            // autoFocus removed, handled by ref
           />
         </div>
         {hintAudioPath && (
