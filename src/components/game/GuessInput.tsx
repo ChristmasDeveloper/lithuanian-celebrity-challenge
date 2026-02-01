@@ -32,6 +32,7 @@ export const GuessInput = ({ onSubmit, disabled, showError, hintAudioPath }: Gue
   const playHint = () => {
     if (!hintAudioPath) return;
 
+    console.log(hintAudioPath);
     const audio = new Audio(hintAudioPath);
     setIsPlayingHint(true);
     audio.play();
@@ -68,22 +69,24 @@ export const GuessInput = ({ onSubmit, disabled, showError, hintAudioPath }: Gue
             autoFocus
           />
         </div>
-        <Button
-          type="button"
-          onClick={playHint}
-          disabled={disabled || isPlayingHint || !hintAudioPath}
-          className={cn(
-            "h-12 md:h-14 px-4",
-            "bg-secondary text-secondary-foreground",
-            "hover:bg-secondary/90",
-            "font-display font-semibold uppercase tracking-wider text-xs md:text-sm",
-            "transition-all duration-200",
-            "whitespace-nowrap"
-          )}
-        >
-          <Volume2 className="w-4 h-4 mr-2" />
-          Hint
-        </Button>
+        {hintAudioPath && (
+          <Button
+            type="button"
+            onClick={playHint}
+            disabled={disabled || isPlayingHint}
+            className={cn(
+              "h-12 md:h-14 px-4",
+              "bg-secondary text-secondary-foreground",
+              "hover:bg-secondary/90",
+              "font-display font-semibold uppercase tracking-wider text-xs md:text-sm",
+              "transition-all duration-200",
+              "whitespace-nowrap"
+            )}
+          >
+            <Volume2 className="w-4 h-4 mr-2" />
+            Hint
+          </Button>
+        )}
         <Button
           type="submit"
           disabled={disabled || !guess.trim()}

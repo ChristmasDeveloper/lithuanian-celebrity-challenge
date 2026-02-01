@@ -76,6 +76,9 @@ const displayNameMapping: Record<string, string> = {
 const hiddenImageModules = import.meta.glob('/public/images/hidden/*.{png,jpg,jpeg,webp,gif}', { eager: true, as: 'url' });
 const publicImageModules = import.meta.glob('/public/images/public/*.{png,jpg,jpeg,webp,gif}', { eager: true, as: 'url' });
 
+// Dynamically import all MP3 files
+const audioModules = import.meta.glob('/public/mp3/*.mp3', { eager: true, as: 'url' });
+
 // Extract celebrity names from filenames and create celebrity objects
 const hiddenPaths = Object.keys(hiddenImageModules);
 
@@ -98,8 +101,14 @@ export const celebrities: Celebrity[] = hiddenPaths.map((hiddenPath, index) => {
   // Get custom display name from mapping, or use filename
   const displayName = displayNameMapping[filename] || filename;
   
-  // Construct audio hint path from filename (lowercase)
-  const audioHintPath = `/mp3/${filename}.mp3`;
+  // Check if audio file exists for this celebrity (case-insensitive match)
+  const audioPath = `/public/mp3/${filename}.mp3`;
+  const hasAudio = Object.keys(audioModules).some(path =>
+    path === audioPath
+  );
+
+  // Only set audioHintPath if the file exists
+  const audioHintPath = hasAudio ? `/mp3/${filename}.mp3` : '';
 
   return {
     id: index + 1,
