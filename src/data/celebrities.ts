@@ -8,6 +8,7 @@ export interface Celebrity {
   displayName: string;
   hiddenImageUrl: string;
   publicImageUrl: string;
+  audioHintPath: string;
 }
 
 // Custom display name mapping - map image filename to custom display name
@@ -68,6 +69,8 @@ const displayNameMapping: Record<string, string> = {
   "Visvaldas Matijošaitis": "Visvaldas Matijošaitis",
   "Vytautas Medineckas Ironvytas": "Vytautas Medineckas (Ironvytas)",
   "Žilvinas Žvagulis": "Žilvinas Žvagulis",
+  "Artūras Orlauskas": "Artūras Orlauskas",
+  "Laurynas Maybach Burovas": "Laurynas Burovas (Maybach)",
   // Add more custom mappings here as needed
 };
 
@@ -80,6 +83,12 @@ const publicImageModules = import.meta.glob(
   "/public/images/public/*.{png,jpg,jpeg,webp,gif}",
   { eager: true, as: "url" },
 );
+
+// Dynamically import all MP3 files
+const audioModules = import.meta.glob("/public/mp3/*.mp3", {
+  eager: true,
+  as: "url",
+});
 
 // Extract celebrity names from filenames and create celebrity objects
 const hiddenPaths = Object.keys(hiddenImageModules);
@@ -111,6 +120,13 @@ export const celebrities: Celebrity[] = hiddenPaths.map((hiddenPath, index) => {
   // Get custom display name from mapping, or use filename
   const displayName = displayNameMapping[filename] || filename;
 
+  // Check if audio file exists for this celebrity (case-insensitive match)
+  const audioPath = `/public/mp3/${filename}.mp3`;
+  const hasAudio = Object.keys(audioModules).some((path) => path === audioPath);
+
+  // Only set audioHintPath if the file exists
+  const audioHintPath = hasAudio ? `/mp3/${filename}.mp3` : "";
+
   return {
     id: index + 1,
     name: firstname,
@@ -120,6 +136,7 @@ export const celebrities: Celebrity[] = hiddenPaths.map((hiddenPath, index) => {
     publicImageUrl: publicPath
       ? (publicImageModules[publicPath] as string)
       : (hiddenImageModules[hiddenPath] as string),
+    audioHintPath: audioHintPath,
   };
 });
 
